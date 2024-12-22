@@ -7,6 +7,7 @@ data class RecipeDTO(
     val image: String,
     val servings: String,
     val readyInMinutes: String,
+    val summary: String,
     val extenderIngredients: List<ExtendedIngredients>
 )
 

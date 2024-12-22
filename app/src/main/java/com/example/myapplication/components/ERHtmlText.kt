@@ -12,7 +12,7 @@ import androidx.core.text.HtmlCompat
 import com.google.android.material.textview.MaterialTextView
 
 @Composable
-fun ERHtmlText(textHTML: String, MaxLines: Int) {
+fun ERHtmlText(textHTML: String, MaxLines: Int? = null) {
     val text = HtmlCompat.fromHtml(textHTML, 0)
     // getting onSurface text color
     val textColor = MaterialTheme.colorScheme.onSurface.toArgb()
@@ -24,7 +24,9 @@ fun ERHtmlText(textHTML: String, MaxLines: Int) {
             MaterialTextView(it).apply {
                 setTextColor(textColor)
                 MaxLines.let {
-                    maxLines = it
+                    if (it != null) {
+                        maxLines = it
+                    }
                 }
             }
         },

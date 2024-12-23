@@ -112,7 +112,7 @@ fun RandomRecipesScreen(navController: NavHostController, modifier: Modifier = M
 }
 
 @Composable
-fun RecipesList(recipes: List<RecipeDTO>, navController: NavHostController, onClick: (itemClicked: RecipeDTO) -> Unit, modifier: Modifier = Modifier) {
+private fun RecipesList(recipes: List<RecipeDTO>, navController: NavHostController, onClick: (itemClicked: RecipeDTO) -> Unit, modifier: Modifier = Modifier) {
 
         Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(

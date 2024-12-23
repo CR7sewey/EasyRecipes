@@ -31,5 +31,10 @@ fun App(modifier: Modifier = Modifier) {
             NavType.StringType})) { backStateEntry ->
             RecipeDetailsScreen(requireNotNull(backStateEntry.arguments?.getString("id")?.toString()), navController)
         }
+
+        composable(route = "search_recipes"+ "/{query}", arguments = listOf(navArgument("query"){ type=
+            NavType.StringType})) { backStateEntry ->
+            SearchRecipesScreen(requireNotNull(backStateEntry.arguments?.getString("query")?.toString()), navController)
+        }
     }
 }

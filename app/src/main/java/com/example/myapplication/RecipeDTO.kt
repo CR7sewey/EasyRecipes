@@ -8,12 +8,12 @@ data class RecipeDTO(
     val servings: String,
     val readyInMinutes: String,
     val summary: String,
-    val extenderIngredients: List<ExtendedIngredients>
+    val extendedIngredients: List<ExtendedIngredients>
 )
 
 data class ExtendedIngredients(
     val id: Int,
-    val amount: Int,
+    val amount: Float,
     val image: String,
     val name: String
 )

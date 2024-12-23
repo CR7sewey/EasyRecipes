@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -63,6 +65,8 @@ fun RecipeDetailsScreen(id: String, navHostController: NavHostController, modifi
             }
         })
 
+    println(recipe?.extendedIngredients.toString())
+
     recipe?.let {
         RecipeDetailsItem(recipe,navHostController)
     }
@@ -71,7 +75,10 @@ fun RecipeDetailsScreen(id: String, navHostController: NavHostController, modifi
 
 @Composable
 private fun RecipeDetailsItem(recipe: RecipeDTO?, navHostController: NavHostController, modifier: Modifier = Modifier) {
-    Column(modifier = Modifier.fillMaxSize().padding(8.dp).verticalScroll(rememberScrollState())) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(8.dp)
+        ) {
         /* LazyRow {
              items(listOf(movie)) {
                      mov ->Text(text = mov?.title ?: "Empty title", fontSize = 48.sp) }
@@ -113,5 +120,38 @@ private fun RecipeDetailsItem(recipe: RecipeDTO?, navHostController: NavHostCont
 
         ERHtmlText(textHTML = recipe?.summary ?: "" )
 
+        recipe?.extendedIngredients.let {
+            DetailedInfo(recipe?.extendedIngredients ?: emptyList())
+        }
     }
 }
+
+@Composable
+private fun DetailedInfo(extendedIngredients: List<ExtendedIngredients>, modifier: Modifier = Modifier) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(8.dp)) {
+        Spacer(modifier = Modifier.size(4.dp))
+        Text(
+            text = "Resume Ingredients",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        Spacer(modifier = Modifier.size(4.dp))
+        LazyColumn(modifier = modifier.padding(8.dp)) {
+            items(extendedIngredients) { current ->
+                Spacer(modifier = Modifier.size(4.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "name | amount: ",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = "${current.name} | ${current.amount}",
+                        fontSize = 16.sp,
+                    )
+                }
+            }
+    }
+}}

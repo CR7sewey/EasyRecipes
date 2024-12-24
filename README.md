@@ -8,10 +8,10 @@ Funcionalidades
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
-<img src="(https://github.com/user-attachments/assets/bee0f148-46c7-43e2-8259-eaac482a05df)" width=170/> 
-<img src="(https://github.com/user-attachments/assets/ba7a1da2-18ce-467e-8cf8-8721e0b7b649)" width=170/> 
-<img src="(https://github.com/user-attachments/assets/6a22e366-26ec-462f-bd8f-a3cf09623bcb)" width=170/> 
-<img src="(https://github.com/user-attachments/assets/0136111d-9852-4ca6-9cff-b2a7da55d5a2)" width=170/> 
+<img src="https://github.com/user-attachments/assets/bee0f148-46c7-43e2-8259-eaac482a05df" width=170/> 
+<img src="https://github.com/user-attachments/assets/ba7a1da2-18ce-467e-8cf8-8721e0b7b649" width=170/> 
+<img src="https://github.com/user-attachments/assets/6a22e366-26ec-462f-bd8f-a3cf09623bcb" width=170/> 
+<img src="https://github.com/user-attachments/assets/0136111d-9852-4ca6-9cff-b2a7da55d5a2" width=170/> 
 
 ## Tecnologias
 - 100% Kotlin

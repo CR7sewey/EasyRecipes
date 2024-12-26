@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.common.model
 
 
 data class RecipeDTO(

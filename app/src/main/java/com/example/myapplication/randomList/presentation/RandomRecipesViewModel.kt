@@ -12,6 +12,8 @@ import com.example.myapplication.common.data.model.Recipe
 import com.example.myapplication.common.data.remote.model.RecipeDTO
 import com.example.myapplication.randomList.data.RecipesListRepository
 import com.example.myapplication.randomList.data.remote.RandomListService
+import com.example.myapplication.randomList.presentation.ui.RecipeUiData
+import com.example.myapplication.randomList.presentation.ui.RecipesListUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,11 +22,11 @@ import java.net.UnknownHostException
 
 class RandomRecipesViewModel(private val recipesListRepository: RecipesListRepository): ViewModel() {
 
-    private val _uiRandomRecipes = MutableStateFlow<List<Recipe>>(emptyList<Recipe>())
-    val uiRandomRecipes: StateFlow<List<Recipe>> = _uiRandomRecipes
+    private val _uiRandomRecipes = MutableStateFlow<RecipesListUiState>(RecipesListUiState())
+    val uiRandomRecipes: StateFlow<RecipesListUiState> = _uiRandomRecipes
 
-    private val _uiErrorFetching = MutableStateFlow<String>("")
-    val uiErrorFetching: StateFlow<String> = _uiErrorFetching
+    /*private val _uiErrorFetching = MutableStateFlow<String>("")
+    val uiErrorFetching: StateFlow<String> = _uiErrorFetching*/
 
     init {
         fetchData()
@@ -51,19 +53,23 @@ class RandomRecipesViewModel(private val recipesListRepository: RecipesListRepos
 
         viewModelScope.launch(Dispatchers.IO) { // Suspend configuration != callback one
             val response = recipesListRepository.getAllRecipes()
+            _uiRandomRecipes.value = RecipesListUiState(isLoading = true)
             if (response.isSuccess) {
                 val recipes = response.getOrNull()
                 if (recipes != null) {
-                    _uiRandomRecipes.value = recipes
+                    val recipesConverted = recipes.map { recipe -> RecipeUiData(id = recipe.id, title = recipe.title, image = recipe.image, servings = recipe.servings, readyInMinutes = recipe.readyInMinutes, summary = recipe.summary) }
+                    _uiRandomRecipes.value = RecipesListUiState(list = recipesConverted, isLoading = false)
                 }
 
             }
             else {
                 Log.d("MainActivity", "Request Error :: ${response.exceptionOrNull()?.message.toString()}")
                 val ex = response.exceptionOrNull()
-                _uiErrorFetching.value = "Some error..."
+                //_uiErrorFetching.value = "Some error..."
+                _uiRandomRecipes.value = RecipesListUiState(isError = true, isLoading = false)
                 if (ex is NetworkErrorException) {
-                    _uiErrorFetching.value = "No internet connection..."
+                   // _uiErrorFetching.value = "No internet connection..."
+                    _uiRandomRecipes.value = RecipesListUiState(isError = true, isLoading = false, errorMessage = "No internet connection...")
                 }
             }
         }

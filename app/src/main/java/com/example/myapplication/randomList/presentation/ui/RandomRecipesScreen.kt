@@ -47,7 +47,7 @@ fun RandomRecipesScreen(navController: NavHostController, modifier: Modifier = M
 
 
     val randomRecipes by randomRecipesVM.uiRandomRecipes.collectAsState()
-    val errorFetching by randomRecipesVM.uiErrorFetching.collectAsState()
+    //val errorFetching by randomRecipesVM.uiErrorFetching.collectAsState()
 
 
     /*randomRecipes = listOf(
@@ -63,7 +63,7 @@ fun RandomRecipesScreen(navController: NavHostController, modifier: Modifier = M
             .fillMaxSize()
     ) {
         randomRecipes.let {
-            RecipesList(randomRecipes, navController, errorFetching, onClick = { itemClicked ->
+            RecipesList(randomRecipes, navController, onClick = { itemClicked: RecipeUiData ->
                 navController.navigate("recipe_detail/${itemClicked.id}")
             })
         }
@@ -73,7 +73,7 @@ fun RandomRecipesScreen(navController: NavHostController, modifier: Modifier = M
 }
 
 @Composable
-private fun RecipesList(recipes: List<Recipe>, navController: NavHostController, errorFetching: String, onClick: (Recipe) -> Unit, modifier: Modifier = Modifier) {
+private fun RecipesList(recipes: RecipesListUiState, navController: NavHostController, onClick: (RecipeUiData) -> Unit, modifier: Modifier = Modifier) {
         val context = LocalContext.current
         Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
@@ -92,15 +92,18 @@ private fun RecipesList(recipes: List<Recipe>, navController: NavHostController,
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.size(8.dp))
-            if (errorFetching.isEmpty()) {
+            if (recipes.isError == false) {
                 LazyColumn(modifier = modifier.padding(8.dp)) {
-                    items(recipes) { current ->
+                    items(recipes.list) { current ->
                         Recipe(current, onClick)
                     }
                 }
             }
-            else {
-                Toast.makeText(context, errorFetching, Toast.LENGTH_LONG).show()
+            else if (recipes.isError == true) {
+                Toast.makeText(context, recipes.errorMessage, Toast.LENGTH_LONG).show()
+            }
+            else if (recipes.isLoading == true) {
+                Text("I'm loading...")
             }
         }
     
@@ -121,7 +124,7 @@ fun SearchBar(navController: NavHostController, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Recipe(recipeDTO: Recipe, onClick: (itemClicked: Recipe) -> Unit, modifier: Modifier = Modifier) {
+fun Recipe(recipeDTO: RecipeUiData, onClick: (itemClicked: RecipeUiData) -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier
         .padding(8.dp)
         .fillMaxWidth().clickable {

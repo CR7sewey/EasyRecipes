@@ -1,5 +1,6 @@
 package com.example.myapplication.searchedRecipes.presentation.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,11 +27,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.myapplication.common.data.model.SearchedRecipe
 import com.example.myapplication.common.data.remote.model.SearchRecipeDto
 import com.example.myapplication.searchedRecipes.presentation.SearchedRecipesViewModel
 
@@ -39,20 +42,21 @@ fun SearchRecipesScreen(query: String, navHostController: NavHostController, rec
 
     val recipes by recipesSearchedVM.uiRecipes.collectAsState()
     recipesSearchedVM.fetchData(query)
-
+    val erro by recipesSearchedVM.uiErrorFetching.collectAsState()
+    println(recipes.toString())
     Surface (
         modifier = Modifier
             .fillMaxSize()
     ) {
-        SearchedRecipesList(recipes, navHostController, query)
+        SearchedRecipesList(recipes, navHostController, query, erro)
     }
 
 
 }
 
 @Composable
-private fun SearchedRecipesList(recipes: List<SearchRecipeDto>, navController: NavHostController, query: String, modifier: Modifier = Modifier) {
-
+private fun SearchedRecipesList(recipes: List<SearchedRecipe>, navController: NavHostController, query: String, error: String, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(8.dp)
@@ -83,17 +87,23 @@ private fun SearchedRecipesList(recipes: List<SearchRecipeDto>, navController: N
             )*/
         }
 
-        LazyColumn(modifier = modifier.padding(8.dp)) {
-            items(recipes) { current ->
-                Recipe(current, navController)
+        if (error.isEmpty()) {
+            LazyColumn(modifier = modifier.padding(8.dp)) {
+                items(recipes) { current ->
+                    Recipe(current, navController)
+                }
             }
+        }
+        else {
+            Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+
         }
     }
 
 }
 
 @Composable
-fun Recipe(recipeDTO: SearchRecipeDto?, navHostController: NavHostController, modifier: Modifier = Modifier) {
+fun Recipe(recipeDTO: SearchedRecipe?, navHostController: NavHostController, modifier: Modifier = Modifier) {
     Column(modifier = modifier
         .padding(8.dp)
         .fillMaxWidth()

@@ -8,6 +8,10 @@ import com.example.myapplication.randomList.data.RecipesListRepository
 import com.example.myapplication.randomList.data.local.RecipesListLocalDataSource
 import com.example.myapplication.randomList.data.remote.RandomListService
 import com.example.myapplication.randomList.data.remote.RecipesListRemoteDataSource
+import com.example.myapplication.searchedRecipes.data.SearchedRecipesListRepository
+import com.example.myapplication.searchedRecipes.data.local.SearchedRecipesLocalDataSource
+import com.example.myapplication.searchedRecipes.data.remote.SearchedRecipeService
+import com.example.myapplication.searchedRecipes.data.remote.SearchedRecipesRemoteDataSource
 
 class MyRecipesApplication: Application() {
 
@@ -32,6 +36,22 @@ class MyRecipesApplication: Application() {
 
     val repository: RecipesListRepository by lazy {
         RecipesListRepository(localDataSource, remoteDataSource)
+    }
+
+    private val searchedRecipeService by lazy {
+        RetroFitClient.retrofit.create(SearchedRecipeService::class.java)
+    }
+
+    private val searchedRemoteDataSource by lazy {
+        SearchedRecipesRemoteDataSource(searchedRecipeService)
+    }
+
+    private val searchedLocalDataSource by lazy {
+        SearchedRecipesLocalDataSource(recipesDao = db.getRecipesDao())
+    }
+
+    val searchRepository: SearchedRecipesListRepository by lazy {
+        SearchedRecipesListRepository(searchedLocalDataSource, searchedRemoteDataSource)
     }
 
 

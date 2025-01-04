@@ -1,4 +1,4 @@
-package com.example.myapplication.searchedRecipes.data
+package com.example.myapplication.searchedRecipes.data.remote
 
 import com.example.myapplication.common.data.remote.model.SearchRecipesResponse
 import retrofit2.Response

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.common.data.remote.RetroFitClient
 import com.example.myapplication.common.data.remote.model.RecipeDTO
-import com.example.myapplication.randomList.data.RandomListService
+import com.example.myapplication.randomList.data.remote.RandomListService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

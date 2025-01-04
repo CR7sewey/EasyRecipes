@@ -1,4 +1,4 @@
-package com.example.myapplication.randomList.data
+package com.example.myapplication.randomList.data.remote
 
 import com.example.myapplication.common.data.remote.model.RecipeResponse
 import retrofit2.Response

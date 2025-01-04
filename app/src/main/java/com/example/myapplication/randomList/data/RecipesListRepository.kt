@@ -27,7 +27,7 @@ class RecipesListRepository(private val recipesListLocalDataSource: RecipesListL
                     Result.success(getLocalRecipes)
                 }
                 else {
-                    Result.failure(NetworkErrorException(getRemoteRecipes.exceptionOrNull()?.message.toString()))
+                    Result.failure(NetworkErrorException(getRemoteRecipes.exceptionOrNull()?.message))
                 }
 
             }

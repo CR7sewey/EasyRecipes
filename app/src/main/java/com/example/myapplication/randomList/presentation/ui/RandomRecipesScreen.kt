@@ -1,5 +1,7 @@
 package com.example.myapplication.randomList.presentation.ui
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -25,12 +27,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.myapplication.common.data.model.Recipe
 import com.example.myapplication.common.data.remote.model.RecipeDTO
 import com.example.myapplication.components.ERHtmlText
 import com.example.myapplication.components.ERSearchBar
@@ -43,21 +47,23 @@ fun RandomRecipesScreen(navController: NavHostController, modifier: Modifier = M
 
 
     val randomRecipes by randomRecipesVM.uiRandomRecipes.collectAsState()
+    val errorFetching by randomRecipesVM.uiErrorFetching.collectAsState()
 
-        /*randomRecipes = listOf(
-        RecipeDTO(1,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeImages/716429-556x370.jpg","2","45",toBeDeleted,listOf(
-            ExtendedIngredients(1,2,"butter-sliced.jpg","butter"))),
-        RecipeDTO(2,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeImages/716429-556x370.jpg","2","45",toBeDeleted,listOf(
-            ExtendedIngredients(1,2,"butter-sliced.jpg","butter"))),
-        RecipeDTO(3,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeImages/716429-556x370.jpg","2","45",toBeDeleted,listOf(
-            ExtendedIngredients(1,2,"butter-sliced.jpg","butter"))))*/
+
+    /*randomRecipes = listOf(
+    RecipeDTO(1,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeImages/716429-556x370.jpg","2","45",toBeDeleted,listOf(
+        ExtendedIngredients(1,2,"butter-sliced.jpg","butter"))),
+    RecipeDTO(2,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeImages/716429-556x370.jpg","2","45",toBeDeleted,listOf(
+        ExtendedIngredients(1,2,"butter-sliced.jpg","butter"))),
+    RecipeDTO(3,"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs","https://spoonacular.com/recipeImages/716429-556x370.jpg","2","45",toBeDeleted,listOf(
+        ExtendedIngredients(1,2,"butter-sliced.jpg","butter"))))*/
 
     Surface (
         modifier = Modifier
             .fillMaxSize()
     ) {
         randomRecipes.let {
-            RecipesList(randomRecipes, navController, onClick = { itemClicked ->
+            RecipesList(randomRecipes, navController, errorFetching, onClick = { itemClicked ->
                 navController.navigate("recipe_detail/${itemClicked.id}")
             })
         }
@@ -67,8 +73,8 @@ fun RandomRecipesScreen(navController: NavHostController, modifier: Modifier = M
 }
 
 @Composable
-private fun RecipesList(recipes: List<RecipeDTO>, navController: NavHostController, onClick: (RecipeDTO) -> Unit, modifier: Modifier = Modifier) {
-
+private fun RecipesList(recipes: List<Recipe>, navController: NavHostController, errorFetching: String, onClick: (Recipe) -> Unit, modifier: Modifier = Modifier) {
+        val context = LocalContext.current
         Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 modifier = Modifier.padding(top = 15.dp),
@@ -86,10 +92,15 @@ private fun RecipesList(recipes: List<RecipeDTO>, navController: NavHostControll
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.size(8.dp))
-            LazyColumn(modifier = modifier.padding(8.dp)) {
-                items(recipes) { current ->
-                    Recipe(current, onClick)
+            if (errorFetching.isEmpty()) {
+                LazyColumn(modifier = modifier.padding(8.dp)) {
+                    items(recipes) { current ->
+                        Recipe(current, onClick)
+                    }
                 }
+            }
+            else {
+                Toast.makeText(context, errorFetching, Toast.LENGTH_LONG).show()
             }
         }
     
@@ -110,7 +121,7 @@ fun SearchBar(navController: NavHostController, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Recipe(recipeDTO: RecipeDTO, onClick: (itemClicked: RecipeDTO) -> Unit, modifier: Modifier = Modifier) {
+fun Recipe(recipeDTO: Recipe, onClick: (itemClicked: Recipe) -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier
         .padding(8.dp)
         .fillMaxWidth().clickable {

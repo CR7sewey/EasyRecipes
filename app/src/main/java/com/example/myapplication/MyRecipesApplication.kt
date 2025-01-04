@@ -18,8 +18,12 @@ class MyRecipesApplication: Application() {
         ).build()
     }
 
+    private val randomListService by lazy {
+        RetroFitClient.retrofit.create(RandomListService::class.java)
+    }
+
     private val remoteDataSource by lazy {
-        RecipesListRemoteDataSource(RetroFitClient.retrofit.create(RandomListService::class.java))
+        RecipesListRemoteDataSource(randomListService)
     }
 
     private val localDataSource by lazy {

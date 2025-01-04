@@ -1,7 +1,6 @@
 package com.example.myapplication.recipeDetails.data
 
-import com.example.myapplication.common.model.RecipeDTO
-import retrofit2.Call
+import com.example.myapplication.common.data.remote.model.RecipeDTO
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

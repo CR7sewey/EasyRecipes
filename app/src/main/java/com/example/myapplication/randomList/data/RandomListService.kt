@@ -1,6 +1,6 @@
 package com.example.myapplication.randomList.data
 
-import com.example.myapplication.common.model.RecipeResponse
+import com.example.myapplication.common.data.remote.model.RecipeResponse
 import retrofit2.Response
 import retrofit2.http.GET
 

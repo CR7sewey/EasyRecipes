@@ -1,4 +1,4 @@
-package com.example.myapplication.common.data
+package com.example.myapplication.common.data.remote
 
 import com.example.myapplication.BuildConfig
 import okhttp3.OkHttpClient

@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.example.myapplication.common.model.SearchRecipeDto
+import com.example.myapplication.common.data.remote.model.SearchRecipeDto
 import com.example.myapplication.searchedRecipes.presentation.SearchedRecipesViewModel
 
 @Composable

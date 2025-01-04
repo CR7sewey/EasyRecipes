@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.example.myapplication.common.model.RecipeDTO
+import com.example.myapplication.common.data.remote.model.RecipeDTO
 import com.example.myapplication.components.ERHtmlText
 import com.example.myapplication.components.ERSearchBar
 import com.example.myapplication.randomList.presentation.RandomRecipesViewModel

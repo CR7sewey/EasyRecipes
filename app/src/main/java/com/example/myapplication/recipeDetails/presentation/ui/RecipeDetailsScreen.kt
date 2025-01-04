@@ -1,6 +1,5 @@
 package com.example.myapplication.recipeDetails.presentation.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,9 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -31,15 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.example.myapplication.ApiService
-import com.example.myapplication.common.data.RetroFitClient
-import com.example.myapplication.common.model.ExtendedIngredients
-import com.example.myapplication.common.model.RecipeDTO
+import com.example.myapplication.common.data.remote.model.ExtendedIngredients
+import com.example.myapplication.common.data.remote.model.RecipeDTO
 import com.example.myapplication.components.ERHtmlText
 import com.example.myapplication.recipeDetails.presentation.RecipeDetailsViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @Composable
 fun RecipeDetailsScreen(id: String, navHostController: NavHostController,recipeDetailsVM: RecipeDetailsViewModel, modifier: Modifier = Modifier, ) {

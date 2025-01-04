@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.example.myapplication.common.data.RetroFitClient
-import com.example.myapplication.common.model.SearchRecipeDto
+import com.example.myapplication.common.data.remote.RetroFitClient
+import com.example.myapplication.common.data.remote.model.SearchRecipeDto
 import com.example.myapplication.searchedRecipes.data.SearchedRecipeService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

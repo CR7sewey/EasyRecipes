@@ -1,5 +1,7 @@
 package com.example.myapplication.recipeDetails.presentation.ui
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,15 +39,19 @@ import com.example.myapplication.recipeDetails.presentation.RecipeDetailsViewMod
 fun RecipeDetailsScreen(id: String, navHostController: NavHostController,recipeDetailsVM: RecipeDetailsViewModel, modifier: Modifier = Modifier, ) {
     val recipe by recipeDetailsVM.uiRecipe.collectAsState()
     recipeDetailsVM.fetchData(id)
+    val uiErrorFetching by recipeDetailsVM.uiErrorFetching.collectAsState()
 
-    recipe?.let {
-        RecipeDetailsItem(recipe,navHostController, recipeDetailsVM = recipeDetailsVM)
+
+    recipe.let {
+        RecipeDetailsItem(recipe,navHostController, recipeDetailsVM = recipeDetailsVM, uiErrorFetching= uiErrorFetching)
     }
 
 }
 
 @Composable
-private fun RecipeDetailsItem(recipe: RecipeDTO?, navHostController: NavHostController, modifier: Modifier = Modifier, recipeDetailsVM: RecipeDetailsViewModel) {
+private fun RecipeDetailsItem(recipe: RecipeDTO?, navHostController: NavHostController, modifier: Modifier = Modifier, recipeDetailsVM: RecipeDetailsViewModel, uiErrorFetching: String) {
+    val context = LocalContext.current
+
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(8.dp)
@@ -53,47 +60,70 @@ private fun RecipeDetailsItem(recipe: RecipeDTO?, navHostController: NavHostCont
              items(listOf(movie)) {
                      mov ->Text(text = mov?.title ?: "Empty title", fontSize = 48.sp) }
          }*/
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(onClick = {
-                recipeDetailsVM.cleanRecipeId()
-                navHostController.popBackStack()
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back Button"
-                )
-            }
+        if (uiErrorFetching.isEmpty()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = {
+                    recipeDetailsVM.cleanRecipeId()
+                    navHostController.popBackStack()
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back Button"
+                    )
+                }
 
-            LazyRow {
-                items(listOf(recipe)) {
-                        r ->Text(text = r?.title ?: "", fontSize = 38.sp) }
-            }
+                LazyRow {
+                    items(listOf(recipe)) { r -> Text(text = r?.title ?: "", fontSize = 38.sp) }
+                }
 
-            /*Text(
+                /*Text(
                 modifier = Modifier.padding(start = 4.dp),
                 text = movie?.title ?: "Empty title", fontSize = 48.sp,
 
             )*/
+            }
+
+
+            AsyncImage(
+                model = recipe?.image, contentDescription = "${recipe?.title} Poster Image",
+                modifier = Modifier
+                    .height(200.dp)
+                    .fillMaxSize(),
+                contentScale = ContentScale.Crop,
+
+                )
+            Spacer(modifier = Modifier.size(4.dp))
+
+            ERHtmlText(textHTML = recipe?.summary ?: "")
+
+            recipe?.extendedIngredients.let {
+                DetailedInfo(recipe?.extendedIngredients ?: emptyList())
+            }
+        } else {
+            Log.d("AQUI","ERRRRRRRRR")
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = {
+                    recipeDetailsVM.cleanRecipeId()
+                    navHostController.popBackStack()
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back Button"
+                    )
+                }
+
+
+                Toast.makeText(context, uiErrorFetching, Toast.LENGTH_LONG).show()
+            }
         }
 
 
-        AsyncImage(model = recipe?.image, contentDescription = "${recipe?.title} Poster Image",
-            modifier = Modifier
-                .height(200.dp)
-                .fillMaxSize(),
-            contentScale = ContentScale.Crop,
-
-            )
-        Spacer(modifier = Modifier.size(4.dp))
-
-        ERHtmlText(textHTML = recipe?.summary ?: "" )
-
-        recipe?.extendedIngredients.let {
-            DetailedInfo(recipe?.extendedIngredients ?: emptyList())
-        }
     }
 }
 

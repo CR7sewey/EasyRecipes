@@ -151,7 +151,8 @@ fun Recipe(recipeDTO: RecipeUiData, onClick: (itemClicked: RecipeUiData) -> Unit
             text = recipeDTO.title,
             fontSize = 20.sp,
             modifier = Modifier.padding(horizontal = 6.dp),
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.secondary
         )
         Spacer(modifier = Modifier.size(8.dp))
 

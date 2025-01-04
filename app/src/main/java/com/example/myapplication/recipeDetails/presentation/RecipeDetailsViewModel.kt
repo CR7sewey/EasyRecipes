@@ -1,5 +1,6 @@
 package com.example.myapplication.recipeDetails.presentation
 
+import android.accounts.NetworkErrorException
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,11 +14,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
+import kotlin.toString
 
 class RecipeDetailsViewModel(private val recipeDetailsService: RecipeDetailsService): ViewModel() {
 
     private val _uiRecipe = MutableStateFlow<RecipeDTO?>(null)
     val uiRecipe: StateFlow<RecipeDTO?> = _uiRecipe
+
+    private val _uiErrorFetching = MutableStateFlow<String>("")
+    val uiErrorFetching: StateFlow<String> = _uiErrorFetching
 
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
@@ -38,18 +44,30 @@ class RecipeDetailsViewModel(private val recipeDetailsService: RecipeDetailsServ
         viewModelScope.launch{
             delay(1000)
             _uiRecipe.value = null
+            _uiErrorFetching.value = ""
         }
 
     }
 
     fun fetchData(itemId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = recipeDetailsService.getRecipeInfo(itemId.toString())
-            if (response.isSuccessful) {
-                _uiRecipe.value = response.body()
+            try {
+                val response = recipeDetailsService.getRecipeInfo(itemId.toString())
+                if (response.isSuccessful) {
+                    _uiRecipe.value = response.body()
+                } else {
+                    Log.d("RecipeDetailsViewModel", "Request Error :: ${response.errorBody()}")
+                    _uiErrorFetching.value = NetworkErrorException(response.message().toString()).message.toString()
+                }
             }
-            else {
-                Log.d("RecipeDetailsViewModel", "Request Error :: ${response.errorBody()}")
+            catch (ex: Exception) {
+                ex.printStackTrace()
+                println("AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII 222")
+                var errorMessage = "Something went wrong..."
+                if (ex is UnknownHostException) {
+                    errorMessage = "No internet connection..."//ex.message.toString()
+                }
+                _uiErrorFetching.value = errorMessage
             }
         }
     }

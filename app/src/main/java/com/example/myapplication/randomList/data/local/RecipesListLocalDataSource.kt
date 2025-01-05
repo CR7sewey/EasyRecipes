@@ -7,17 +7,17 @@ import com.example.myapplication.common.data.model.Recipe
 
 class RecipesListLocalDataSource(private val recipesDao: RecipesDao) {
 
-    fun getAllRecipes(): List<Recipe> {
+    suspend fun getAllRecipes(): List<Recipe> {
         val recipes = recipesDao.getAllRecipes()
         return recipes.map { recipe -> Recipe(id = recipe.id, title = recipe.title, image = recipe.image, servings = recipe.servings, readyInMinutes = recipe.readyInMinutes, summary = recipe.summary) }
     }
 
-    fun insertAllRecipes(recipes: List<Recipe>) {
+    suspend fun insertAllRecipes(recipes: List<Recipe>) {
         val recipesEntity = recipes.map { recipe -> RecipesEntity(id = recipe.id, title = recipe.title, image = recipe.image, servings = recipe.servings, readyInMinutes = recipe.readyInMinutes, summary = recipe.summary) }
         recipesDao.insertAllRecipes(recipesEntity)
     }
 
-    fun deleteAllRecipes() {
+    suspend fun deleteAllRecipes() {
         recipesDao.deleteAllRecipes()
     }
 }

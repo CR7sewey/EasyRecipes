@@ -6,9 +6,9 @@ import com.example.myapplication.common.data.model.Recipe
 import com.example.myapplication.common.data.remote.model.RecipeDTO
 import okhttp3.Response
 
-class RecipesListRemoteDataSource(private val randomListService: RandomListService) {
+class RecipesListRemoteDataSource(private val randomListService: RandomListService): RemoteDataSource {
 
-    suspend fun getAllMovies(): Result<List<Recipe>?> {
+    override suspend fun getAllMovies(): Result<List<Recipe>?> {
         return try {
             val recipesFromAPI = randomListService.getRandomRecipes()
             var recipesConverted = emptyList<Recipe>()

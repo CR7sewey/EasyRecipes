@@ -5,11 +5,12 @@ import com.example.myapplication.common.data.model.Recipe
 import com.example.myapplication.common.data.model.SearchedRecipe
 import com.example.myapplication.common.data.remote.model.RecipeDTO
 import com.example.myapplication.common.data.remote.model.SearchRecipeDto
+import com.example.myapplication.searchedRecipes.data.remote.RemoteDataSource
 import kotlin.printStackTrace
 
-class SearchedRecipesRemoteDataSource(private val searchedRecipeService: SearchedRecipeService) {
+class SearchedRecipesRemoteDataSource(private val searchedRecipeService: SearchedRecipeService): RemoteDataSource {
 
-    suspend fun searchRecipes(query: String): Result<List<SearchedRecipe>?> {
+    override suspend fun searchRecipes(query: String): Result<List<SearchedRecipe>?> {
         return try {
             val recipesFromAPI = searchedRecipeService.searchRecipes(query)
             var recipesConverted = emptyList<SearchedRecipe>()

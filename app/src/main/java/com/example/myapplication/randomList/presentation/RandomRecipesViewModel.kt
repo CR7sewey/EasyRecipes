@@ -10,17 +10,22 @@ import com.example.myapplication.MyRecipesApplication
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import com.example.myapplication.common.data.model.Recipe
 import com.example.myapplication.common.data.remote.model.RecipeDTO
+import com.example.myapplication.dependencyInjection.DispatcherIO
 import com.example.myapplication.randomList.data.RecipesListRepository
 import com.example.myapplication.randomList.data.remote.RandomListService
 import com.example.myapplication.randomList.presentation.ui.RecipeUiData
 import com.example.myapplication.randomList.presentation.ui.RecipesListUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class RandomRecipesViewModel(private val recipesListRepository: RecipesListRepository): ViewModel() {
+@HiltViewModel
+class RandomRecipesViewModel @Inject constructor(private val recipesListRepository: RecipesListRepository, @DispatcherIO private val dispatcher: CoroutineDispatcher = Dispatchers.IO): ViewModel() {
 
     private val _uiRandomRecipes = MutableStateFlow<RecipesListUiState>(RecipesListUiState())
     val uiRandomRecipes: StateFlow<RecipesListUiState> = _uiRandomRecipes
@@ -32,7 +37,7 @@ class RandomRecipesViewModel(private val recipesListRepository: RecipesListRepos
         fetchData()
     }
 
-    companion object {
+    /*companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
 
             @Suppress("UNCHECKED_CAST")
@@ -47,11 +52,11 @@ class RandomRecipesViewModel(private val recipesListRepository: RecipesListRepos
             }
 
         }
-    }
+    }*/
 
     private fun fetchData() {
 
-        viewModelScope.launch(Dispatchers.IO) { // Suspend configuration != callback one
+        viewModelScope.launch(dispatcher) { // Suspend configuration != callback one
             val response = recipesListRepository.getAllRecipes()
             _uiRandomRecipes.value = RecipesListUiState(isLoading = true)
             if (response.isSuccess) {

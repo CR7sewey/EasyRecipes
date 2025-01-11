@@ -12,32 +12,35 @@ import com.example.myapplication.searchedRecipes.data.SearchedRecipesListReposit
 import com.example.myapplication.searchedRecipes.data.local.SearchedRecipesLocalDataSource
 import com.example.myapplication.searchedRecipes.data.remote.SearchedRecipeService
 import com.example.myapplication.searchedRecipes.data.remote.SearchedRecipesRemoteDataSource
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class MyRecipesApplication: Application() {
 
-    private val db by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            MyRecipesDatabase::class.java, "recipes-database"
-        ).build()
-    }
+    /* private val db by lazy {
+         Room.databaseBuilder(
+             applicationContext,
+             MyRecipesDatabase::class.java, "recipes-database"
+         ).build()
+     }
 
-    private val randomListService by lazy {
-        RetroFitClient.retrofit.create(RandomListService::class.java)
-    }
+     private val randomListService by lazy {
+         RetroFitClient.retrofit.create(RandomListService::class.java)
+     }
 
-    private val remoteDataSource by lazy {
-        RecipesListRemoteDataSource(randomListService)
-    }
+     private val remoteDataSource by lazy {
+         RecipesListRemoteDataSource(randomListService)
+     }
 
-    private val localDataSource by lazy {
-        RecipesListLocalDataSource(recipesDao = db.getRecipesDao())
-    }
+     private val localDataSource by lazy {
+         RecipesListLocalDataSource(recipesDao = db.getRecipesDao())
+     }
 
-    val repository: RecipesListRepository by lazy {
-        RecipesListRepository(localDataSource, remoteDataSource)
-    }
+     val repository: RecipesListRepository by lazy {
+         RecipesListRepository(localDataSource, remoteDataSource)
+     }*/
 
+    /*
     private val searchedRecipeService by lazy {
         RetroFitClient.retrofit.create(SearchedRecipeService::class.java)
     }
@@ -54,5 +57,5 @@ class MyRecipesApplication: Application() {
         SearchedRecipesListRepository(searchedLocalDataSource, searchedRemoteDataSource)
     }
 
-
+    */
 }

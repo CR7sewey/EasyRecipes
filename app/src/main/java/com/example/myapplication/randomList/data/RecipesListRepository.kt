@@ -2,10 +2,13 @@ package com.example.myapplication.randomList.data
 
 import android.accounts.NetworkErrorException
 import com.example.myapplication.common.data.model.Recipe
+import com.example.myapplication.randomList.data.local.LocalDataSource
 import com.example.myapplication.randomList.data.local.RecipesListLocalDataSource
 import com.example.myapplication.randomList.data.remote.RecipesListRemoteDataSource
+import com.example.myapplication.randomList.data.remote.RemoteDataSource
+import javax.inject.Inject
 
-class RecipesListRepository(private val recipesListLocalDataSource: RecipesListLocalDataSource, private val recipesListRemoteDataSource: RecipesListRemoteDataSource) {
+class RecipesListRepository @Inject constructor(private val recipesListLocalDataSource: LocalDataSource, private val recipesListRemoteDataSource: RemoteDataSource) {
 
     suspend fun getAllRecipes(): Result<List<Recipe>> {
         return try {

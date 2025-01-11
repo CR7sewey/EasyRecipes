@@ -9,15 +9,18 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.common.data.remote.RetroFitClient
 import com.example.myapplication.common.data.remote.model.RecipeDTO
 import com.example.myapplication.recipeDetails.data.RecipeDetailsService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
+import javax.inject.Inject
 import kotlin.toString
 
-class RecipeDetailsViewModel(private val recipeDetailsService: RecipeDetailsService): ViewModel() {
+@HiltViewModel
+class RecipeDetailsViewModel @Inject constructor(private val recipeDetailsService: RecipeDetailsService): ViewModel() {
 
     private val _uiRecipe = MutableStateFlow<RecipeDTO?>(null)
     val uiRecipe: StateFlow<RecipeDTO?> = _uiRecipe
@@ -25,7 +28,7 @@ class RecipeDetailsViewModel(private val recipeDetailsService: RecipeDetailsServ
     private val _uiErrorFetching = MutableStateFlow<String>("")
     val uiErrorFetching: StateFlow<String> = _uiErrorFetching
 
-    companion object {
+    /*companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
 
             @Suppress("UNCHECKED_CAST")
@@ -38,7 +41,7 @@ class RecipeDetailsViewModel(private val recipeDetailsService: RecipeDetailsServ
             }
 
         }
-    }
+    }*/
 
     fun cleanRecipeId() {
         viewModelScope.launch{

@@ -4,8 +4,9 @@ import androidx.room.ColumnInfo
 import com.example.myapplication.common.data.local.RecipesDao
 import com.example.myapplication.common.data.local.RecipesEntity
 import com.example.myapplication.common.data.model.Recipe
+import javax.inject.Inject
 
-class RecipesListLocalDataSource(private val recipesDao: RecipesDao): LocalDataSource {
+class RecipesListLocalDataSource @Inject constructor(private val recipesDao: RecipesDao): LocalDataSource {
 
     override suspend fun getAllRecipes(): List<Recipe> {
         val recipes = recipesDao.getAllRecipes()

@@ -2,8 +2,9 @@ package com.example.myapplication.searchedRecipes.data.local
 
 import com.example.myapplication.common.data.local.RecipesDao
 import com.example.myapplication.common.data.model.SearchedRecipe
+import javax.inject.Inject
 
-class SearchedRecipesLocalDataSource(private val recipesDao: RecipesDao): LocalDataSource {
+class SearchedRecipesLocalDataSource @Inject constructor(private val recipesDao: RecipesDao): LocalDataSource {
 
     override suspend fun searchRecipes(query: String): List<SearchedRecipe> {
         val recipes = recipesDao.searchByTitle(query)

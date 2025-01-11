@@ -6,9 +6,10 @@ import com.example.myapplication.common.data.model.SearchedRecipe
 import com.example.myapplication.common.data.remote.model.RecipeDTO
 import com.example.myapplication.common.data.remote.model.SearchRecipeDto
 import com.example.myapplication.searchedRecipes.data.remote.RemoteDataSource
+import javax.inject.Inject
 import kotlin.printStackTrace
 
-class SearchedRecipesRemoteDataSource(private val searchedRecipeService: SearchedRecipeService): RemoteDataSource {
+class SearchedRecipesRemoteDataSource @Inject constructor(private val searchedRecipeService: SearchedRecipeService): RemoteDataSource {
 
     override suspend fun searchRecipes(query: String): Result<List<SearchedRecipe>?> {
         return try {

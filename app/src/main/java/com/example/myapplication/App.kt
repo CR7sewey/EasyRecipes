@@ -15,7 +15,7 @@ import com.example.myapplication.searchedRecipes.presentation.SearchedRecipesVie
 import com.example.myapplication.searchedRecipes.presentation.ui.SearchRecipesScreen
 
 @Composable
-fun App(randomRecipesVM: RandomRecipesViewModel, recipeDetailsVM: RecipeDetailsViewModel, recipesSearchedVM: SearchedRecipesViewModel, modifier: Modifier = Modifier) {
+fun App(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "entryApp") {
@@ -29,8 +29,7 @@ fun App(randomRecipesVM: RandomRecipesViewModel, recipeDetailsVM: RecipeDetailsV
         composable(route = "randomListRecipes") {
             RandomRecipesScreen(
                 navController,
-                modifier,
-                randomRecipesVM
+                modifier
             )
         }
 
@@ -39,7 +38,7 @@ fun App(randomRecipesVM: RandomRecipesViewModel, recipeDetailsVM: RecipeDetailsV
             RecipeDetailsScreen(
                 requireNotNull(
                     backStateEntry.arguments?.getString("id")?.toString()
-                ), navController, recipeDetailsVM
+                ), navController
             )
         }
 
@@ -48,7 +47,7 @@ fun App(randomRecipesVM: RandomRecipesViewModel, recipeDetailsVM: RecipeDetailsV
             SearchRecipesScreen(
                 requireNotNull(
                     backStateEntry.arguments?.getString("query")?.toString()
-                ), navController, recipesSearchedVM
+                ), navController
             )
         }
     }

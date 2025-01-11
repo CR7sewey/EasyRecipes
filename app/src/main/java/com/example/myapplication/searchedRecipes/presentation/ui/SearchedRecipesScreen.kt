@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.myapplication.common.data.model.SearchedRecipe
@@ -38,7 +39,7 @@ import com.example.myapplication.common.data.remote.model.SearchRecipeDto
 import com.example.myapplication.searchedRecipes.presentation.SearchedRecipesViewModel
 
 @Composable
-fun SearchRecipesScreen(query: String, navHostController: NavHostController, recipesSearchedVM: SearchedRecipesViewModel, modifier: Modifier = Modifier) {
+fun SearchRecipesScreen(query: String, navHostController: NavHostController, recipesSearchedVM: SearchedRecipesViewModel = hiltViewModel(), modifier: Modifier = Modifier) {
 
     val recipes by recipesSearchedVM.uiRecipes.collectAsState()
     recipesSearchedVM.fetchData(query)

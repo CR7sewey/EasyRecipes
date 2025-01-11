@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.myapplication.common.data.remote.model.ExtendedIngredients
@@ -36,7 +37,7 @@ import com.example.myapplication.components.ERHtmlText
 import com.example.myapplication.recipeDetails.presentation.RecipeDetailsViewModel
 
 @Composable
-fun RecipeDetailsScreen(id: String, navHostController: NavHostController,recipeDetailsVM: RecipeDetailsViewModel, modifier: Modifier = Modifier, ) {
+fun RecipeDetailsScreen(id: String, navHostController: NavHostController, recipeDetailsVM: RecipeDetailsViewModel = hiltViewModel<RecipeDetailsViewModel>(), modifier: Modifier = Modifier, ) {
     val recipe by recipeDetailsVM.uiRecipe.collectAsState()
     recipeDetailsVM.fetchData(id)
     val uiErrorFetching by recipeDetailsVM.uiErrorFetching.collectAsState()

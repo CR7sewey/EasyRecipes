@@ -14,12 +14,15 @@ import com.example.myapplication.randomList.presentation.ui.RecipeUiData
 import com.example.myapplication.randomList.presentation.ui.RecipesListUiState
 import com.example.myapplication.searchedRecipes.data.SearchedRecipesListRepository
 import com.example.myapplication.searchedRecipes.data.remote.SearchedRecipeService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchedRecipesViewModel(private val searchedRecipesListRepository: SearchedRecipesListRepository): ViewModel() {
+@HiltViewModel
+class SearchedRecipesViewModel @Inject constructor(private val searchedRecipesListRepository: SearchedRecipesListRepository): ViewModel() {
 
     private val _uiRecipes = MutableStateFlow<List<SearchedRecipe>>(emptyList<SearchedRecipe>())
     val uiRecipes: StateFlow<List<SearchedRecipe>> = _uiRecipes
@@ -27,7 +30,7 @@ class SearchedRecipesViewModel(private val searchedRecipesListRepository: Search
     private val _uiErrorFetching = MutableStateFlow<String>("")
     val uiErrorFetching: StateFlow<String> = _uiErrorFetching
 
-    companion object {
+    /*companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
 
             @Suppress("UNCHECKED_CAST")
@@ -41,7 +44,7 @@ class SearchedRecipesViewModel(private val searchedRecipesListRepository: Search
             }
 
         }
-    }
+    }*/
 
     fun fetchData(query: String) {
 

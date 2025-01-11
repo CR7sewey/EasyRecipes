@@ -5,8 +5,9 @@ import com.example.myapplication.common.data.local.RecipesEntity
 import com.example.myapplication.common.data.model.Recipe
 import com.example.myapplication.common.data.remote.model.RecipeDTO
 import okhttp3.Response
+import javax.inject.Inject
 
-class RecipesListRemoteDataSource(private val randomListService: RandomListService): RemoteDataSource {
+class RecipesListRemoteDataSource @Inject constructor(private val randomListService: RandomListService): RemoteDataSource {
 
     override suspend fun getAllMovies(): Result<List<Recipe>?> {
         return try {

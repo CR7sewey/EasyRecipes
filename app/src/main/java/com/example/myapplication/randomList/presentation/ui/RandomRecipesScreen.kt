@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.myapplication.common.data.model.Recipe
@@ -42,7 +43,7 @@ import com.example.myapplication.randomList.presentation.RandomRecipesViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun RandomRecipesScreen(navController: NavHostController, modifier: Modifier = Modifier, randomRecipesVM: RandomRecipesViewModel) {
+fun RandomRecipesScreen(navController: NavHostController, modifier: Modifier = Modifier, randomRecipesVM: RandomRecipesViewModel = hiltViewModel<RandomRecipesViewModel>()) {
     // val toBeDeleted = "\"Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs might be a good recipe to expand your main course repertoire. One portion of this dish contains approximately &lt;b&gt;19g of protein &lt;/b&gt;,  &lt;b&gt;20g of fat &lt;/b&gt;, and a total of  &lt;b&gt;584 calories &lt;/b&gt;. For  &lt;b&gt;\$1.63 per serving &lt;/b&gt;, this recipe  &lt;b&gt;covers 23% &lt;/b&gt; of your daily requirements of vitamins and minerals. This recipe serves 2. It is brought to you by fullbellysisters.blogspot.com. 209 people were glad they tried this recipe. A mixture of scallions, salt and pepper, white wine, and a handful of other ingredients are all it takes to make this recipe so scrumptious. From preparation to the plate, this recipe takes approximately  &lt;b&gt;45 minutes &lt;/b&gt;. All things considered, we decided this recipe  &lt;b&gt;deserves a spoonacular score of 83% &lt;/b&gt;. This score is awesome. If you like this recipe, take a look at these similar recipes: &lt;a href=\\\"https://spoonacular.com/recipes/cauliflower-gratin-with-garlic-breadcrumbs-318375\\\">Cauliflower Gratin with Garlic Breadcrumbs&lt;/a&gt;, &lt; href=\\\"https://spoonacular.com/recipes/pasta-with-cauliflower-sausage-breadcrumbs-30437\\\">Pasta With Cauliflower, Sausage, & Breadcrumbs&lt;/a&gt;, and &lt;a href=\\\"https://spoonacular.com/recipes/pasta-with-roasted-cauliflower-parsley-and-breadcrumbs-30738\\\">Pasta With Roasted Cauliflower, Parsley, And Breadcrumbs&lt;/a&gt;.\""
 
 
